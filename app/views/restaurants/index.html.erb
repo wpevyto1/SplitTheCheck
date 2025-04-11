@@ -1,15 +1,48 @@
 <p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+
 <%= link_to 'Sign in', new_user_session_path %>
 
 <h1>Restaurants</h1>
 
 <div id="restaurants">
-  <% @restaurants.each do |restaurant| %>
-    <%= render restaurant %>
-    <p>
-      <%= link_to "Show this restaurant", restaurant %>
-    </p>
-  <% end %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th> Restaurant </th>
+        <th> Address </th>
+        <th> Vote </th>
+        <th> Split Indicator </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @restaurants.each do |restaurant| %>
+        <tr>
+          <td>  
+            <%= restaurant.name %>
+          </td>
+          <td>
+            <%= restaurant.location %>
+          </td>
+          <td>
+            <% if user_signed_in? %>
+              <%= button_to 'Will Split', vote_restaurant_path(restaurant, vote: 'will_split'), method: :post, class: 'btn btn-success' %>
+              <%= button_to 'Won\'t Split', vote_restaurant_path(restaurant, vote: 'wont_split'), method: :post, class: 'btn btn-danger' %>
+            <% else %>
+              <%= "Login to vote" %>
+            <% end %>
+          </td>
+          <td>
+            <% if restaurant.will_split > restaurant.wont_split %>
+              <div class="circle green-circle"></div>
+            <% elsif restaurant.wont_split > restaurant.will_split %>
+              <div class="circle red-circle"></div>
+            <% else %>
+              <div class="circle" style="background-color: gray;"></div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
-
-<%= link_to "New restaurant", new_restaurant_path %>

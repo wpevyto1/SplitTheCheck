@@ -1,4 +1,5 @@
 class RestaurantsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :vote]
   before_action :set_restaurant, only: %i[ show edit update destroy ]
 
   # GET /restaurants or /restaurants.json
@@ -55,6 +56,22 @@ class RestaurantsController < ApplicationController
       format.html { redirect_to restaurants_path, status: :see_other, notice: "Restaurant was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+  
+  def vote
+    @restaurant = Restaurant.find(params[:id])
+    vote_type = params[:vote]
+    if current_user.voted_for?(@restaurant)
+      redirect_to restaurant_path(@restaurant), alert: "You've already voted on this restaurant."
+      return
+    end
+    if vote_type == 'will_split'
+      @restaurant.increment!(:will_split)
+    elsif vote_type == 'wont_split'
+      @restaurant.increment!(:wont_split)
+    end
+    current_user.vote_for(@restaurant)
+    redirect_to restaurant_path(@restaurant), notice: "Your vote has been counted."
   end
 
   private
