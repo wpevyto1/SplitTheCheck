@@ -61,16 +61,19 @@ class RestaurantsController < ApplicationController
   def vote
     @restaurant = Restaurant.find(params[:id])
     vote_type = params[:vote]
-    if current_user.voted_for?(@restaurant)
+    if current_user.voted_returaunts.include(@restaurant)
       redirect_to restaurant_path(@restaurant), alert: "You've already voted on this restaurant."
       return
     end
+
+    VoteHistory.create(user: current_user, restaurant: @restaurant, vote_type: vote_type)
+
     if vote_type == 'will_split'
       @restaurant.increment!(:will_split)
     elsif vote_type == 'wont_split'
       @restaurant.increment!(:wont_split)
     end
-    current_user.vote_for(@restaurant)
+    
     redirect_to restaurant_path(@restaurant), notice: "Your vote has been counted."
   end
 
