@@ -5,5 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :vote_histories
-  has_many :voted_returaunts, through: :voted_histories, source: :restaurant
+  has_many :voted_restaurants, through: :vote_histories, source: :restaurant
 end

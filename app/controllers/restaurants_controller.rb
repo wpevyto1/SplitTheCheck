@@ -61,7 +61,8 @@ class RestaurantsController < ApplicationController
   def vote
     @restaurant = Restaurant.find(params[:id])
     vote_type = params[:vote]
-    if current_user.voted_returaunts.include(@restaurant)
+
+    if current_user.voted_restaurants.include?(@restaurant)
       redirect_to restaurant_path(@restaurant), alert: "You've already voted on this restaurant."
       return
     end
