@@ -1,42 +1,51 @@
-<p style="color: green"><%= notice %></p>
-<p style="color: red"><%= alert %></p>
+<p class="text-success"><%= notice %></p>
+<p class="text-danger"><%= alert %></p>
 
-<h1>Restaurants</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">SPLIT THE CHECK</h1>
+  <div class="w-25">
+    <input type="text" id="restaurant-search" class="form-control form-control-sm" placeholder="Search by name or location">
+  </div>
+</div>
 
-<div id="restaurants">
-  <table class="table table-striped">
-    <thead>
+<div>
+  <% if user_signed_in? %>
+    <%= link_to "New Restaurant", new_restaurant_path %>
+  <% end %>
+</div>
+
+<div id="restaurants" class="table-responsive">
+  <table class="table table-bordered table-hover align-middle" id="restaurants-table">
+    <thead class="table-dark">
       <tr>
-        <th> Restaurant </th>
-        <th> Address </th>
-        <th> Vote </th>
-        <th> Split Indicator </th>
+        <th>Restaurant</th>
+        <th>Address</th>
+        <th>Vote</th>
+        <th>Split Indicator</th>
       </tr>
     </thead>
     <tbody>
       <% @restaurants.each do |restaurant| %>
         <tr>
-          <td>  
-            <%= restaurant.name %>
-          </td>
-          <td>
-            <%= restaurant.location %>
-          </td>
+          <td class="restaurant-name"><strong><%= restaurant.name %></strong></td>
+          <td class="restaurant-location"><%= restaurant.location %></td>
           <td>
             <% if user_signed_in? %>
-              <%= button_to 'Will Split', vote_restaurant_path(restaurant, vote: 'will_split'), method: :post, class: 'btn btn-success' %>
-              <%= button_to 'Won\'t Split', vote_restaurant_path(restaurant, vote: 'wont_split'), method: :post, class: 'btn btn-danger' %>
+              <div class="d-flex gap-2">
+                <%= button_to 'Will Split', vote_restaurant_path(restaurant, vote: 'will_split'), method: :post, class: 'btn btn-outline-success btn-sm' %>
+                <%= button_to "Won't Split", vote_restaurant_path(restaurant, vote: 'wont_split'), method: :post, class: 'btn btn-outline-danger btn-sm' %>
+              </div>
             <% else %>
-              <%= "Login to vote" %>
+              <span class="text-muted">Log in to vote</span>
             <% end %>
           </td>
-          <td>
+          <td class="text-center">
             <% if restaurant.will_split > restaurant.wont_split %>
-              <div class="circle green-circle"></div>
+              <div class="circle bg-success mx-auto"></div>
             <% elsif restaurant.wont_split > restaurant.will_split %>
-              <div class="circle red-circle"></div>
+              <div class="circle bg-danger mx-auto"></div>
             <% else %>
-              <div class="circle" style="background-color: gray;"></div>
+              <div class="circle bg-secondary mx-auto"></div>
             <% end %>
           </td>
         </tr>
@@ -44,3 +53,31 @@
     </tbody>
   </table>
 </div>
+
+<style>
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+</style>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("restaurant-search");
+    const rows = document.querySelectorAll("#restaurants-table tbody tr");
+
+    input.addEventListener("input", () => {
+      const query = input.value.toLowerCase();
+
+      rows.forEach(row => {
+        const name = row.querySelector(".restaurant-name")?.textContent.toLowerCase() || "";
+        const location = row.querySelector(".restaurant-location")?.textContent.toLowerCase() || "";
+
+        row.style.display = name.includes(query) || location.includes(query) ? "" : "none";
+      });
+    });
+  });
+</script>

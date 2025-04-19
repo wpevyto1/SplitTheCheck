@@ -24,14 +24,20 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
 
-    respond_to do |format|
-      if @restaurant.save
-        format.html { redirect_to @restaurant, notice: "Restaurant was successfully created." }
-        format.json { render :show, status: :created, location: @restaurant }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @restaurant.errors, status: :unprocessable_entity }
-      end
+    vote_choice = params[:restaurant][:initial_vote]
+    
+    if vote_choice == "will_split"
+      @restaurant.will_split = 1
+      @restaurant.wont_split = 0
+    elsif vote_choice == "wont_split"
+      @restaurant.will_split = 0
+      @restaurant.wont_split = 1
+    end
+  
+    if @restaurant.save
+      redirect_to @restaurant, notice: "Restaurant was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 

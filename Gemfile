@@ -28,6 +28,10 @@ gem "jbuilder"
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem "bootstrap", "~> 5.3.0"
+
+gem "sassc-rails"
+
 #Devise
 gem 'devise', '~> 4.9.4'
 

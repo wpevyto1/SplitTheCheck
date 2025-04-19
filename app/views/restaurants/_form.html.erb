@@ -1,8 +1,7 @@
 <%= form_with(model: restaurant) do |form| %>
   <% if restaurant.errors.any? %>
-    <div style="color: red">
+    <div class="alert alert-danger">
       <h2><%= pluralize(restaurant.errors.count, "error") %> prohibited this restaurant from being saved:</h2>
-
       <ul>
         <% restaurant.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,27 +10,23 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :location, style: "display: block" %>
-    <%= form.text_field :location %>
+  <div class="mb-3">
+    <%= form.label :location %>
+    <%= form.text_field :location, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :will_split, style: "display: block" %>
-    <%= form.number_field :will_split %>
+  <div class="mb-3">
+    <%= form.label :initial_vote, "Your opinion on check splitting:" %><br>
+    <%= form.radio_button :initial_vote, "will_split" %>
+    <%= form.label :initial_vote_will, "Will Split" %><br>
+    <%= form.radio_button :initial_vote, "wont_split" %>
+    <%= form.label :initial_vote_wont, "Won't Split" %>
   </div>
 
-  <div>
-    <%= form.label :wont_split, style: "display: block" %>
-    <%= form.number_field :wont_split %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+  <%= form.submit "Create Restaurant", class: "btn btn-dark" %>
 <% end %>

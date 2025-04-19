@@ -1,22 +1,21 @@
-<div id="<%= dom_id restaurant %>">
-  <p>
-    <strong>Name:</strong>
-    <%= restaurant.name %>
-  </p>
+<div id="<%= dom_id restaurant %>" class="card mb-3 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">
+      <i class="bi bi-shop"></i>
+      <%= restaurant.name %>
+    </h5>
 
-  <p>
-    <strong>Location:</strong>
-    <%= restaurant.location %>
-  </p>
+    <p class="card-text">
+      <strong>Location:</strong>
+      <%= restaurant.location %>
+    </p>
 
-  <p>
-    <strong>Will split:</strong>
-    <%= restaurant.will_split %>
-  </p>
+    <p class="card-text mb-1">
+      <span class="badge bg-success">Will split: <%= restaurant.will_split %></span>
+    </p>
 
-  <p>
-    <strong>Wont split:</strong>
-    <%= restaurant.wont_split %>
-  </p>
-
+    <p class="card-text">
+      <span class="badge bg-danger">Won't split: <%= restaurant.wont_split %></span>
+    </p>
+  </div>
 </div>
