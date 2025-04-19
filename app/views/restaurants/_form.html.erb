@@ -16,9 +16,26 @@
   </div>
 
   <div class="mb-3">
-    <%= form.label :location %>
-    <%= form.text_field :location, class: "form-control", style: "width: 500px;" %>
+    <%= form.label :address, "Address" %>
+    <%= form.text_field :address, class: "form-control", placeholder: "Enter address", style: "width: 500px;" %>
   </div>
+
+  <div class="mb-3">
+    <%= form.label :city, "City" %>
+    <%= form.text_field :city, class: "form-control", placeholder: "Enter city", style: "width: 500px;" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :state, "State" %>
+    <%= form.text_field :state, class: "form-control", placeholder: "Enter state", style: "width: 500px;" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :zip, "Zip Code" %>
+    <%= form.text_field :zip, class: "form-control", placeholder: "Enter zip code", style: "width: 500px;" %>
+  </div>
+
+  <%= form.hidden_field :location, id: "location" %>
 
   <div class="mb-3">
     <%= form.label :initial_vote, "Your opinion on check splitting:" %><br>

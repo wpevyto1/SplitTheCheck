@@ -22,6 +22,8 @@ class RestaurantsController < ApplicationController
 
   # POST /restaurants or /restaurants.json
   def create
+    location_string = "#{params[:restaurant][:address]}, #{params[:restaurant][:city]}, #{params[:restaurant][:state]} #{params[:restaurant][:zip]}"
+    params[:restaurant][:location] = location_string
     @restaurant = Restaurant.new(restaurant_params)
 
     vote_choice = params[:restaurant][:initial_vote]

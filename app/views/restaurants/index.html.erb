@@ -27,7 +27,9 @@
     <tbody>
       <% @restaurants.each do |restaurant| %>
         <tr>
-          <td class="restaurant-name"><strong><%= restaurant.name %></strong></td>
+          <td class="restaurant-name">
+            <strong><%= link_to restaurant.name, restaurant_path(restaurant) %></strong>
+          </td>
           <td class="restaurant-location"><%= restaurant.location %></td>
           <td>
             <% if user_signed_in? %>
@@ -39,15 +41,18 @@
               <span class="text-muted">Log in to vote</span>
             <% end %>
           </td>
-          <td class="text-center">
-            <% if restaurant.will_split > restaurant.wont_split %>
-              <div class="circle bg-success mx-auto"></div>
-            <% elsif restaurant.wont_split > restaurant.will_split %>
-              <div class="circle bg-danger mx-auto"></div>
-            <% else %>
-              <div class="circle bg-secondary mx-auto"></div>
-            <% end %>
-          </td>
+
+            <td class="text-center">
+              <% will_split = restaurant.will_split.nil? ? 0 : restaurant.will_split %>
+              <% wont_split = restaurant.wont_split.nil? ? 0 : restaurant.wont_split %>
+              <% if will_split > wont_split %>
+                <div class="circle bg-success mx-auto"></div>
+              <% elsif wont_split > will_split %>
+                <div class="circle bg-danger mx-auto"></div>
+              <% else %>
+                <div class="circle bg-secondary mx-auto"></div>
+              <% end %>
+            </td>
         </tr>
       <% end %>
     </tbody>
