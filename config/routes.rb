@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'restaurants#index'
 
   resources :restaurants do
+    post :toggle_favorite, on: :member
     post 'vote', on: :member
     resources :comments, only: [:create]
   end

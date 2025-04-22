@@ -24,6 +24,7 @@
       <tr>
         <th>Restaurant</th>
         <th>Address</th>
+        <th>Favorite</th>
         <th>Vote</th>
         <th>Split Indicator</th>
       </tr>
@@ -35,28 +36,39 @@
             <strong><%= link_to restaurant.name, restaurant_path(restaurant) %></strong>
           </td>
           <td class="restaurant-location"><%= restaurant.location %></td>
+
+          <td class="text-center">
+            <% if user_signed_in? %>
+              <% if current_user.favorite_restaurants.include?(restaurant) %>
+                <%= button_to "\u2605", toggle_favorite_restaurant_path(restaurant), method: :post, class: "btn btn-warning btn-sm", title: "Unfavorite" %>
+              <% else %>
+                <%= button_to "\u2606", toggle_favorite_restaurant_path(restaurant), method: :post, class: "btn btn-outline-warning btn-sm", title: "Favorite" %>
+              <% end %>
+            <% end %>
+          </td>
+
           <td>
             <% if user_signed_in? %>
               <div class="d-flex gap-2">
-                <%= button_to 'Will Split', vote_restaurant_path(restaurant, vote: 'will_split'), method: :post, class: 'btn btn-outline-success btn-sm' %>
-                <%= button_to "Won't Split", vote_restaurant_path(restaurant, vote: 'wont_split'), method: :post, class: 'btn btn-outline-danger btn-sm' %>
+                <%= button_to "👍", vote_restaurant_path(restaurant, vote: 'will_split'), method: :post, class: 'btn btn-outline-success btn-sm' %>
+                <%= button_to "👎", vote_restaurant_path(restaurant, vote: 'wont_split'), method: :post, class: 'btn btn-outline-danger btn-sm' %>
               </div>
             <% else %>
               <span class="text-muted">Log in to vote</span>
             <% end %>
           </td>
 
-            <td class="text-center">
-              <% will_split = restaurant.will_split.nil? ? 0 : restaurant.will_split %>
-              <% wont_split = restaurant.wont_split.nil? ? 0 : restaurant.wont_split %>
-              <% if will_split > wont_split %>
-                <div class="circle bg-success mx-auto"></div>
-              <% elsif wont_split > will_split %>
-                <div class="circle bg-danger mx-auto"></div>
-              <% else %>
-                <div class="circle bg-secondary mx-auto"></div>
-              <% end %>
-            </td>
+          <td class="text-center">
+            <% will_split = restaurant.will_split || 0 %>
+            <% wont_split = restaurant.wont_split || 0 %>
+            <% if will_split > wont_split %>
+              <div class="circle bg-success mx-auto"></div>
+            <% elsif wont_split > will_split %>
+              <div class="circle bg-danger mx-auto"></div>
+            <% else %>
+              <div class="circle bg-secondary mx-auto"></div>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

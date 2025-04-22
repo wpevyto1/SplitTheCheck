@@ -86,6 +86,16 @@ class RestaurantsController < ApplicationController
     redirect_to restaurant_path(@restaurant), notice: "Your vote has been counted."
   end
 
+  def toggle_favorite
+    restaurant = Restaurant.find(params[:id])
+    if current_user.favorite_restaurants.include?(restaurant)
+      current_user.favorite_restaurants.destroy(restaurant)
+    else
+      current_user.favorite_restaurants << restaurant
+    end
+    redirect_to restaurants_path, notice: "Favorite updated."
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
