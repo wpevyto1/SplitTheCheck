@@ -10,8 +10,12 @@
 
 <div>
   <% if user_signed_in? %>
-    <%= link_to "New Restaurant", new_restaurant_path %>
+    <div class="d-flex justify-content-start gap-3 mb-3">
+      <%= link_to "New Restaurant", new_restaurant_path, class: "btn btn-primary btn-sm" %>
+      <%= link_to "My Summary", user_summary_path, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
   <% end %>
+
 </div>
 
 <div id="restaurants" class="table-responsive">

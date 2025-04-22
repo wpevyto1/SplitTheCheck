@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'users/summary'
   devise_for :users
 
   root 'restaurants#index'
@@ -7,6 +8,8 @@ Rails.application.routes.draw do
     post 'vote', on: :member
     resources :comments, only: [:create]
   end
+
+  get 'summary', to: 'users#summary', as: 'user_summary'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

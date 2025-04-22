@@ -1,0 +1,34 @@
+<h2>My Summary</h2>
+<h5>
+    User:
+    <%= @user.email %>
+</h5>
+
+<h4>Comments</h4>
+<ul>
+  <% @user.comments.each do |comment| %>
+    <li>
+      <%= link_to comment.restaurant.name, restaurant_path(comment.restaurant) %>:
+      <%= comment.content %>
+    </li>
+  <% end %>
+</ul>
+
+<h4>Votes</h4>
+<ul>
+  <% @user.vote_histories.each do |vote| %>
+    <li>
+      <%= link_to vote.restaurant.name, restaurant_path(vote.restaurant) %> —
+      Voted: <%= vote.vote_type.humanize %>
+    </li>
+  <% end %>
+</ul>
+
+<h4>Favorites</h4>
+<ul>
+  <% @user.favorite_restaurants.each do |restaurant| %>
+    <li><%= link_to restaurant.name, restaurant_path(restaurant) %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Home", restaurants_path %>
