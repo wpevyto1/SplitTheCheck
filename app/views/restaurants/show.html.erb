@@ -2,6 +2,27 @@
 
 <%= render @restaurant %>
 
+<h2>Comments</h2>
+
+<% @restaurant.comments.each do |comment| %>
+  <div class="mb-2 p-2 border rounded">
+    <strong><%= comment.user.email %>:</strong>
+    <p><%= comment.content %></p>
+  </div>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= form_with(model: [@restaurant, Comment.new], local: true) do |form| %>
+    <div class="mb-3">
+      <%= form.label :content, "New Comment" %>
+      <%= form.text_area :content, class: "form-control", rows: 3 %>
+    </div>
+    <%= form.submit "Post Comment", class: "btn btn-primary" %>
+  <% end %>
+<% else %>
+  <p class="text-muted">Log in to post a comment.</p>
+<% end %>
+
 <div></div>
 
   <%= link_to "Home", restaurants_path %>

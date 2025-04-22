@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :restaurants do
     post 'vote', on: :member
+    resources :comments, only: [:create]
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

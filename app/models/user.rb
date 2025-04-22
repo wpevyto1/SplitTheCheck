@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :vote_histories
   has_many :voted_restaurants, through: :vote_histories, source: :restaurant
+  has_many :comments, dependent: :destroy
 end
