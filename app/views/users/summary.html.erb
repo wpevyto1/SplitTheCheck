@@ -1,34 +1,61 @@
-<h2>My Summary</h2>
-<h5>
-    User:
-    <%= @user.email %>
-</h5>
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title mb-3">My Summary</h2>
+      <h5 class="card-subtitle text-muted mb-4">
+       Logged in as: <span class="fw-semibold"><%= @user.email %></span>
+      </h5>
 
-<h4>Comments</h4>
-<ul>
-  <% @user.comments.each do |comment| %>
-    <li>
-      <%= link_to comment.restaurant.name, restaurant_path(comment.restaurant) %>:
-      <%= comment.content %>
-    </li>
-  <% end %>
-</ul>
+      <div class="mb-4">
+        <h4 class="border-bottom pb-2">🗨️ Comments</h4>
+        <% if @user.comments.any? %>
+          <ul class="list-group list-group-flush">
+            <% @user.comments.each do |comment| %>
+              <li class="list-group-item">
+                <%= link_to comment.restaurant.name, restaurant_path(comment.restaurant), class: "fw-bold" %>:
+                <%= comment.content %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">You haven’t made any comments yet.</p>
+        <% end %>
+      </div>
 
-<h4>Votes</h4>
-<ul>
-  <% @user.vote_histories.each do |vote| %>
-    <li>
-      <%= link_to vote.restaurant.name, restaurant_path(vote.restaurant) %> —
-      Voted: <%= vote.vote_type.humanize %>
-    </li>
-  <% end %>
-</ul>
+      <div class="mb-4">
+        <h4 class="border-bottom pb-2">🗳️ Votes</h4>
+        <% if @user.vote_histories.any? %>
+          <ul class="list-group list-group-flush">
+            <% @user.vote_histories.each do |vote| %>
+              <li class="list-group-item">
+                <%= link_to vote.restaurant.name, restaurant_path(vote.restaurant), class: "fw-bold" %> —
+                Voted: <span class="text-capitalize"><%= vote.vote_type %></span>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+           <p class="text-muted">You haven’t voted on any restaurants yet.</p>
+        <% end %>
+      </div>
 
-<h4>Favorites</h4>
-<ul>
-  <% @user.favorite_restaurants.each do |restaurant| %>
-    <li><%= link_to restaurant.name, restaurant_path(restaurant) %></li>
-  <% end %>
-</ul>
+      <div class="mb-4">
+        <h4 class="border-bottom pb-2">⭐ Favorites</h4>
+        <% if @user.favorite_restaurants.any? %>
+          <ul class="list-group list-group-flush">
+            <% @user.favorite_restaurants.each do |restaurant| %>
+              <li class="list-group-item">
+                <%= link_to restaurant.name, restaurant_path(restaurant), class: "fw-bold" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">You haven’t favorited any restaurants yet.</p>
+        <% end %>
+      </div>
 
-<%= link_to "Home", restaurants_path %>
+      <div>
+        <%= link_to "← Back to Restaurants", restaurants_path, class: "btn btn-outline-primary btn-sm" %>
+      </div>
+    </div>
+  </div>
+</div>
