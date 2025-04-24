@@ -97,4 +97,20 @@ class RestaurantsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 0, restaurant.will_split
     assert_equal 1, restaurant.wont_split
   end
+
+  test "user can toggle favorite on and off" do
+    assert_not @user.favorite_restaurants.include?(@restaurant)
+
+    post toggle_favorite_restaurant_path(@restaurant)
+    assert_redirected_to restaurants_path
+    follow_redirect!
+    assert_match "Favorite updated.", response.body
+    assert @user.favorite_restaurants.include?(@restaurant)
+
+    post toggle_favorite_restaurant_path(@restaurant)
+    assert_redirected_to restaurants_path
+    follow_redirect!
+    assert_match "Favorite updated.", response.body
+    assert_not @user.favorite_restaurants.include?(@restaurant)
+  end
 end
