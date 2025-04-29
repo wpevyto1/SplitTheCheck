@@ -37,13 +37,5 @@
 
   <%= form.hidden_field :location, id: "location" %>
 
-  <div class="mb-3">
-    <%= form.label :initial_vote, "Your opinion on check splitting:" %><br>
-    <%= form.radio_button :initial_vote, "will_split" %>
-    <%= form.label :initial_vote_will, "Will Split" %><br>
-    <%= form.radio_button :initial_vote, "wont_split" %>
-    <%= form.label :initial_vote_wont, "Won't Split" %>
-  </div>
-
   <%= form.submit "Create Restaurant", class: "btn btn-dark" %>
 <% end %>
